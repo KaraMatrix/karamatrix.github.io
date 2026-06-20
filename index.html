@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karam Ababneh · Softwareentwickler · KI-Fokus</title>
+    <meta name="description" content="Portfolio von Karam Ababneh — KaraMatrix. Softwareentwicklung, KI-Integration und Automatisierung. Medieninformatik-Student aus Berlin, remote verfügbar.">
+    
+    <!-- Inline JS im Head, um FOUC beim Theme- und Sprach-Switch zu verhindern -->
+    <script>
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        const savedLang = localStorage.getItem('lang') || 'de';
+        document.documentElement.setAttribute('lang', savedLang);
+    </script>
+
+    <style>
+        /* * 6.1 Clean Code & 6.2 DRY: CSS Variablen für zentrales Theming (Apple Style) */
+        :root {
+            --color-bg: #f5f5f7; 
+            --color-surface: #ffffff;
+            --color-text: #1d1d1f; 
+            --color-text-muted: #515154; 
+            --color-accent: #c5a059; 
+            --color-accent-hover: #b38d46;
+            --color-border: rgba(0, 0, 0, 0.08);
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 15px 35px -5px rgba(0, 0, 0, 0.08);
+            
+            --radius-card: 24px;
+            --radius-btn: 999px; 
+            
+            --transition-speed: 0.3s;
+            --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --color-bg: #000000; 
+            --color-surface: #1c1c1e; 
+            --color-text: #f5f5f7;
+            --color-text-muted: #a1a1a6; 
+            --color-border: rgba(255, 255, 255, 0.12);
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Project-specific Accents (Apple UI Palette) */
+        .accent-cine { --color-accent: #32ade6; --color-accent-hover: #007aff; } /* Cyan / Neonblau */
+        .accent-fitness { --color-accent: #ff453a; --color-accent-hover: #ff3b30; } /* Sportliches Rot */
+        .accent-coaching { --color-accent: #30d158; --color-accent-hover: #28cd41; } /* Seriöses Grün */
+        .accent-learning { --color-accent: #ff9f0a; --color-accent-hover: #e08b00; } /* Energetisches Bernstein */
+        .accent-allfix { --color-accent: #30b0c7; --color-accent-hover: #2a9aad; } /* Frisches Türkis (Reinigung) */
+        .accent-cv { --color-accent: #5e5ce6; --color-accent-hover: #4b49b8; } /* Indigo */
+        .accent-ig { --color-accent: #ff2d55; --color-accent-hover: #d92648; } /* Pink/Red */
+
+        /* High-Performance Translation Toggle Logic */
+        :root[lang="de"] [lang="en"] { display: none !important; }
+        :root[lang="en"] [lang="de"] { display: none !important; }
+
+        /* Reset & Basis-Setup */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Accessibility (A11y) & Focus States */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: var(--color-accent);
+            color: #000;
+            padding: 1rem;
+            z-index: 10000;
+            text-decoration: none;
+            font-weight: 700;
+            transition: top 0.2s ease;
+        }
+
+        .skip-link:focus { top: 0; }
+
+        :focus-visible {
+            outline: 3px solid var(--color-accent);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        .btn:focus-visible, .sticky-cta:focus-visible, .theme-toggle:focus-visible, .badge:focus-visible {
+            border-radius: var(--radius-btn);
+        }
+
+        /* Typografie */
+        h1, h2, h3, h4 { line-height: 1.15; font-weight: 700; }
+        h1 { font-size: clamp(3rem, 6vw, 5.5rem); letter-spacing: -0.04em; margin-bottom: 1rem; }
+        h2 { font-size: clamp(2.2rem, 4vw, 3.5rem); letter-spacing: -0.03em; margin-bottom: 2rem; }
+        h3 { font-size: 1.5rem; margin-bottom: 1rem; letter-spacing: -0.01em; }
+        h4 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        p { margin-bottom: 1.5rem; color: var(--color-text-muted); font-size: 1.125rem; font-weight: 400; }
+
+        .project-details {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .project-details strong {
+            color: var(--color-text);
+            display: block;
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .project-details span { color: var(--color-text-muted); display: block; }
+
+        /* Layout Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 0;
+            background: color-mix(in srgb, var(--color-bg) 75%, transparent);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
+            box-shadow: 0 4px 20px color-mix(in srgb, var(--color-accent) 12%, transparent);
+            z-index: 1000;
+            transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        nav { width: 100%; }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            text-decoration: none;
+            color: var(--color-text);
+            letter-spacing: -0.05em;
+        }
+
+        .logo span { color: var(--color-accent); }
+
+        .header-controls {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        /* Theme & Lang Toggle Buttons */
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: 0;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+            transform: scale(1.05);
+        }
+
+        .lang-text {
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #vortexCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--color-bg) 80%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 1rem;
+            background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+            color: var(--color-accent);
+            border-radius: var(--radius-btn);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
+            letter-spacing: 0.02em;
+            transition: background var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        /* Buttons (WCAG Optimiert) */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2.25rem;
+            border-radius: var(--radius-btn);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+        }
+
+        .btn-primary { 
+            background: var(--color-accent); 
+            color: #000; 
+            border: 1px solid transparent; 
+        }
+        
+        .btn-primary:hover { 
+            background: var(--color-accent-hover); 
+            transform: scale(1.02); 
+        }
+
+        .btn-primary:focus-visible {
+            outline: 3px solid var(--color-text);
+        }
+
+        .btn-outline { 
+            background: color-mix(in srgb, var(--color-surface) 60%, transparent);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--color-text); 
+            border: 1px solid color-mix(in srgb, var(--color-text) 15%, transparent); 
+        }
+        
+        .btn-outline:hover { 
+            background: var(--color-surface); 
+            border-color: color-mix(in srgb, var(--color-text) 30%, transparent); 
+            transform: scale(1.02); 
+        }
+
+        /* Premium Shimmer Effect & Fix for cut-off 'g' */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .text-shimmer {
+            background: linear-gradient(to right, var(--color-text) 20%, var(--color-accent) 40%, var(--color-text) 60%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmer 8s linear infinite;
+            display: inline-block;
+            padding-bottom: 0.2em; 
+            margin-bottom: -0.2em; 
+            line-height: 1.3;
+            transition: background var(--transition-speed);
+        }
+
+        [data-theme="light"] .text-shimmer {
+            background: linear-gradient(to right, var(--color-text) 20%, var(--color-accent) 40%, var(--color-text) 60%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        /* =========================================================
+           CTA Section (Aceternity Animated Fluid Gradient)
+        ========================================================= */
+        .cta {
+            padding: 2rem 0 8rem 0; 
+            background-color: var(--color-bg);
+        }
+
+        @keyframes fluidRotate {
+            0% { transform: rotate(0deg) scale(1) translate(0, 0); }
+            33% { transform: rotate(120deg) scale(1.1) translate(2%, -2%); }
+            66% { transform: rotate(240deg) scale(0.9) translate(-2%, 2%); }
+            100% { transform: rotate(360deg) scale(1) translate(0, 0); }
+        }
+
+        .cta-card {
+            padding: 5rem 2rem;
+            text-align: center;
+            border-radius: calc(var(--radius-card) * 1.5);
+            border: 1px solid color-mix(in srgb, var(--color-accent) 35%, transparent);
+            background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
+            box-shadow: 0 25px 50px -12px color-mix(in srgb, var(--color-accent) 20%, transparent);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0); 
+        }
+
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--color-accent) 18%, transparent) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--color-accent) 15%, transparent) 0%, transparent 40%);
+            animation: fluidRotate 25s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .cta-card > * {
+            position: relative;
+            z-index: 1; 
+        }
+
+        .cta-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Sticky CTA Button */
+        .sticky-cta {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background-color: var(--color-accent);
+            color: #000;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+            z-index: 999;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+        }
+
+        .sticky-cta:hover, .sticky-cta:focus-visible {
+            transform: translateY(-5px) scale(1.05);
+            background-color: var(--color-accent-hover);
+            box-shadow: 0 15px 30px color-mix(in srgb, var(--color-accent) 30%, transparent);
+            outline: none;
+        }
+
+        .sticky-cta:focus-visible {
+            outline: 3px solid var(--color-text); 
+        }
+
+        /* Glowing Card Effect (Standard Sektionen) */
+        .glowing-card {
+            position: relative;
+            background: color-mix(in srgb, var(--color-surface) 60%, transparent);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-card);
+            overflow: hidden;
+            transition: border-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .glowing-container:not(.container) .glowing-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), color-mix(in srgb, var(--color-accent) 15%, transparent), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .glowing-container:not(.container) .glowing-card:hover::before { opacity: 1; }
+        .glowing-container:not(.container) .glowing-card > * { position: relative; z-index: 2; }
+
+        /* Reusable Section Styles */
+        .section-standard {
+            padding: 8rem 0;
+            border-top: 1px solid var(--color-border);
+        }
+
+        /* Layout Grid */
+        .grid, .skills-grid, .project-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .grid > *, .skills-grid > *, .project-grid > * {
+            flex: 1 1 calc(33.333% - 2rem);
+            min-width: 280px; 
+            max-width: 480px; 
+        }
+
+        .skills-grid { margin-top: 3rem; }
+
+        .project-card.featured-project {
+            flex: 1 1 100%;
+            max-width: 100%; 
+        }
+
+        @media (min-width: 992px) {
+            .project-card.featured-project {
+                flex-direction: row;
+                align-items: center;
+                gap: 3rem;
+                padding: 2rem;
+            }
+            .project-card.featured-project .project-image-container {
+                width: 55%;
+                margin-bottom: 0;
+            }
+            .project-card.featured-project .project-info {
+                width: 45%;
+                padding: 0;
+                justify-content: center;
+            }
+        }
+
+        /* Specific Section Backgrounds */
+        .services { background-color: var(--color-bg); }
+        .tech-profile { background-color: var(--color-surface); }
+        .projects { background-color: var(--color-bg); }
+        .results { background-color: var(--color-surface); }
+        .philosophy { background-color: var(--color-bg); }
+        .metrics { background-color: var(--color-surface); }
+        .assessment { background-color: var(--color-bg); }
+
+        .card { padding: 3rem 2.5rem; }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 4rem;
+            height: 4rem;
+            margin-bottom: 1.5rem;
+            background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+            border: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
+            border-radius: 14px;
+            color: var(--color-accent);
+            transition: background var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        .card-icon svg { width: 28px; height: 28px; stroke-width: 1.25px; }
+
+        .skill-category { padding: 3rem 2.5rem; height: 100%; }
+        .skill-category.primary { border-top: 4px solid var(--color-accent); }
+        .category-desc { font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .tags { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .tag {
+            padding: 0.5rem 1.25rem;
+            border-radius: var(--radius-btn);
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            box-shadow: var(--shadow-sm);
+        }
+        .tag.expert {
+            background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+            border-color: color-mix(in srgb, var(--color-accent) 25%, transparent);
+            color: var(--color-accent);
+            transition: background var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* Live-Badge für echte Kundenprojekte */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: #30d158;
+            background: rgba(48, 209, 88, 0.1);
+            border: 1px solid rgba(48, 209, 88, 0.25);
+            border-radius: var(--radius-btn);
+            padding: 0.2rem 0.6rem;
+            margin-left: 0.6rem;
+            vertical-align: middle;
+            line-height: 1;
+        }
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #30d158;
+            flex-shrink: 0;
+            animation: livePulse 2s ease-in-out infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.45; transform: scale(0.75); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .live-dot { animation: none; }
+        }
+
+        .project-card { padding: 1.5rem; display: flex; flex-direction: column; }
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+            box-shadow: var(--shadow-md);
+        }
+
+        .project-image-container {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            border-radius: calc(var(--radius-card) - 0.5rem);
+            overflow: hidden;
+            position: relative;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+        }
+
+        /* Performanter CSS-Placeholder (Animated Breathing Blob) */
+        .project-image-placeholder {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--color-text);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            background-color: var(--color-surface); /* Basis für saubere Ränder */
+        }
+
+        /* Die sanfte Hintergrund-Pulsierung */
+        .project-image-placeholder::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at center, color-mix(in srgb, var(--color-accent) 30%, transparent) 0%, transparent 40%);
+            animation: meshPulse 10s ease-in-out infinite alternate;
+        }
+
+        .bg-mesh-1::before {
+            background: radial-gradient(circle at 40% 40%, color-mix(in srgb, var(--color-accent) 35%, transparent) 0%, transparent 45%);
+            animation-duration: 12s;
+        }
+
+        .bg-mesh-2::before {
+            background: radial-gradient(circle at 60% 60%, color-mix(in srgb, var(--color-accent) 25%, transparent) 0%, transparent 45%);
+            animation-duration: 9s;
+            animation-direction: alternate-reverse;
+        }
+
+        @keyframes meshPulse {
+            0% { transform: scale(0.8) rotate(0deg) translate(2%, 2%); opacity: 0.6; }
+            100% { transform: scale(1.3) rotate(15deg) translate(-2%, -2%); opacity: 1; }
+        }
+
+        .project-image-placeholder svg {
+            width: 56px;
+            height: 56px;
+            stroke-width: 1px;
+            color: var(--color-accent);
+            opacity: 0.9;
+            transition: color var(--transition-speed);
+        }
+
+        .placeholder-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        .project-card:hover .project-image-placeholder { transform: scale(1.03); }
+
+        .project-info { padding: 1.5rem 0.5rem 0.5rem 0.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .project-info h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-text);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color var(--transition-speed);
+        }
+        .project-link:hover { color: var(--color-accent); }
+        .project-link svg { transition: transform 0.3s ease; }
+        .project-card:hover .project-link svg { transform: translateX(4px); }
+
+        .philosophy-list { list-style: none; margin-top: 3rem; }
+        .philosophy-list li { padding: 1.5rem 0; border-bottom: 1px solid var(--color-border); display: flex; flex-direction: column; gap: 0.5rem; }
+        .philosophy-list li strong { color: var(--color-text); font-size: 1.25rem; }
+
+        .assessment-container { max-width: 600px; margin: 0 auto; }
+        .assessment-card { padding: 3rem; text-align: center; }
+        .progress-bar-bg { width: 100%; height: 4px; background: var(--color-border); border-radius: 4px; margin-bottom: 2rem; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--color-accent); width: 0%; transition: width 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .assessment-step { display: none; animation: fadeSlideIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+        .assessment-step.active { display: block; }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .assessment-step h3 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+        .answer-grid { display: flex; flex-direction: column; gap: 1rem; }
+        .answer-btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            border-radius: var(--radius-card);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .answer-btn:hover { border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 5%, transparent); transform: translateY(-2px); }
+        .answer-btn::after { content: "→"; color: var(--color-accent); opacity: 0; transform: translateX(-10px); transition: all 0.2s ease; }
+        .answer-btn:hover::after { opacity: 1; transform: translateX(0); }
+
+        /* Legal Modals */
+        dialog {
+            margin: auto;
+            padding: 3rem;
+            background: var(--color-surface);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-card);
+            max-width: 800px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-md);
+            overscroll-behavior: contain;
+        }
+        dialog::backdrop { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+        .dialog-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border); position: sticky; top: 0; background: var(--color-surface); z-index: 10; }
+        .dialog-header h2 { margin: 0; font-size: 1.75rem; }
+        .btn-close { background: transparent; border: none; color: var(--color-text); font-size: 2rem; line-height: 1; cursor: pointer; padding: 0.5rem; transition: color var(--transition-speed); }
+        .btn-close:hover { color: var(--color-accent); }
+        .legal-content h3 { margin-top: 2rem; margin-bottom: 0.5rem; font-size: 1.25rem; }
+        .legal-content p, .legal-content ul { margin-bottom: 1rem; }
+        .legal-content a { color: var(--color-accent); text-decoration: underline; }
+
+        /* Footer */
+        footer { padding: 4rem 0; text-align: center; border-top: 1px solid var(--color-border); color: var(--color-text-muted); background-color: var(--color-bg); }
+        .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.5rem; }
+        .footer-links button { background: none; border: none; color: var(--color-text-muted); font-size: 0.9rem; transition: color 0.2s; cursor: pointer; font-family: inherit; padding: 0.25rem 0.5rem; }
+        .footer-links button:hover { color: var(--color-accent); }
+
+        /* Theme Toggle SVG Logic */
+        #themeIcon { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        [data-theme="dark"] #themeIcon { transform: rotate(180deg); }
+        #themeIcon svg { position: absolute; transition: opacity 0.3s ease; }
+        #themeIcon .sun-icon { opacity: 1; pointer-events: none; }
+        #themeIcon .moon-icon { opacity: 0; pointer-events: none; }
+        [data-theme="dark"] #themeIcon .sun-icon { opacity: 0; }
+        [data-theme="dark"] #themeIcon .moon-icon { opacity: 1; }
+
+        .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+        /* Responsive Anpassungen */
+        @media (min-width: 768px) {
+            .philosophy-list li { flex-direction: row; align-items: baseline; gap: 1rem; }
+            .philosophy-list li strong { min-width: 150px; }
+            .sticky-cta { bottom: 2rem; right: 2rem; width: 4rem; height: 4rem; font-size: 1.75rem; }
+        }
+
+        /* =========================================================
+           Kooperationen & Projekte — Logo Marquee
+           Strategie: Konstant dunkler Streifen (#111827) in Light+Dark.
+           Transparente Logos (Cine, Locally Visible, Förderplus) sitzen
+           direkt darauf. Opake Logos (ALLFIX, turtleXnails) bekommen
+           einen hellen Chip-Container.
+        ========================================================= */
+
+        .clients {
+            padding: clamp(1.5rem, 4vw, 2rem) 0;
+            background-color: #252c40;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            overflow: hidden;
+        }
+
+        .clients-heading {
+            text-align: center;
+            font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.45);
+            margin-bottom: 1.5rem;
+        }
+
+        .marquee-wrapper {
+            position: relative;
+            width: 100%;
+            /* Fade-out an beiden Rändern — Farbe muss zum BG passen */
+            -webkit-mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                #000 10%,
+                #000 90%,
+                transparent 100%
+            );
+            mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                #000 10%,
+                #000 90%,
+                transparent 100%
+            );
+        }
+
+        /* Pause bei Hover über das gesamte Banner */
+        .marquee-wrapper:hover .marquee-track { animation-play-state: paused; }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            align-items: center;
+            gap: clamp(2.5rem, 6vw, 6rem);
+            padding: 0.25rem 0;
+            animation: marqueeScroll 42s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes marqueeScroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Jedes Set ist selbst eine Flex-Reihe */
+        .logo-chip-set {
+            display: flex;
+            align-items: center;
+            gap: clamp(2.5rem, 6vw, 6rem);
+            flex-shrink: 0;
+        }
+
+        /* Basis: alle Logos direkt auf dunklem Streifen, keine Chip-Box */
+        .logo-chip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            opacity: 0.72;
+            transition: opacity var(--transition-speed);
+        }
+
+        .logo-chip:hover { opacity: 1; }
+
+        .logo-chip img {
+            height: clamp(44px, 8vw, 64px);
+            max-width: clamp(150px, 42vw, 240px);
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Optische Größen-Angleichung einzelner Logos (fluid: Mobile → Desktop) */
+        .logo-chip img[src*="turtle"] { height: clamp(52px, 10vw, 80px); }
+        .logo-chip img[src*="cine"] { height: clamp(60px, 12vw, 94px); }
+        .logo-chip img[src*="locally"] { height: clamp(40px, 7vw, 54px); }
+
+        /* A11y: reduced-motion — keine Scroll-Animation, statisches Flex-Layout */
+        @media (prefers-reduced-motion: reduce) {
+            .marquee-track {
+                animation: none;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 100%;
+                gap: 2rem;
+                padding: 0.5rem 1rem;
+            }
+            .marquee-track .logo-chip-set:last-child { display: none; }
+            .marquee-wrapper {
+                -webkit-mask-image: none;
+                mask-image: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link">
+        <span lang="de">Zum Hauptinhalt springen</span>
+        <span lang="en">Skip to content</span>
+    </a>
+
+    <header>
+        <nav aria-label="Hauptnavigation">
+            <div class="container nav-content">
+                <a href="#" class="logo">Kara<span>Matrix</span></a>
+                
+                <div class="header-controls">
+                    <!-- Sprach-Toggle -->
+                    <button id="langToggle" class="theme-toggle" aria-label="Sprache wechseln / Toggle Language">
+                        <span class="lang-text" id="langIcon">EN</span>
+                    </button>
+                    <!-- Theme-Toggle -->
+                    <button id="themeToggle" class="theme-toggle" aria-label="Theme wechseln / Toggle Theme" aria-pressed="false">
+                        <span id="themeIcon" aria-hidden="true">
+                            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <canvas id="vortexCanvas" aria-hidden="true"></canvas>
+            <div class="container hero-content">
+                <span class="badge">
+                    <span lang="de">KaraMatrix · KI &amp; Automatisierung</span>
+                    <span lang="en">KaraMatrix · AI &amp; Automation</span>
+                </span>
+                <h1>
+                    <span lang="de"><span class="text-shimmer">KI &amp; Automatisierung.</span><br>Karam Ababneh.</span>
+                    <span lang="en"><span class="text-shimmer">AI &amp; Automation.</span><br>Karam Ababneh.</span>
+                </h1>
+                <p>
+                    <span lang="de">Softwareentwickler (Medieninformatik) mit Fokus auf KI-Integration und Automatisierung. Ich baue Web-Anwendungen, verbinde sie mit KI-Workflows und automatisiere, was repetitiv ist.</span>
+                    <span lang="en">Software developer (Media Informatics) focused on AI integration and automation. I build web applications, wire them into AI workflows, and automate what should not be manual.</span>
+                </p>
+                <div class="cta-actions" style="justify-content: flex-start; margin-top: 2rem;">
+                    <a href="#projekt-start" class="btn btn-primary">
+                        <span lang="de">Offen für Zusammenarbeit</span>
+                        <span lang="en">Open for collaboration</span>
+                    </a>
+                    <a href="#referenzen" class="btn btn-outline">
+                        <span lang="de">Projekte ansehen</span>
+                        <span lang="en">View my work</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kooperationen & Projekte — Logo Marquee Trust Strip -->
+        <section class="clients" aria-label="Kooperationen und Projekte">
+            <div class="container">
+                <p class="clients-heading" aria-hidden="false">
+                    <span lang="de">Kooperationen &amp; Projekte</span>
+                    <span lang="en">Collaborations &amp; Clients</span>
+                </p>
+            </div>
+            <div class="marquee-wrapper" role="region" aria-label="Logo-Karussell">
+                <div class="marquee-track" aria-hidden="true">
+                    <!-- Set 1 -->
+                    <div class="logo-chip-set">
+                        <div class="logo-chip">
+                            <img src="logos/allfix-white.png" alt="ALLFIX Reinigungsservice" width="240" height="51" loading="lazy" decoding="async">
+                        </div>
+                        <div class="logo-chip">
+                            <img src="logos/locally-visible-white.png" alt="Locally Visible" width="180" height="48" loading="lazy" decoding="async">
+                        </div>
+                        <div class="logo-chip">
+                            <img src="logos/turtlexnails-white.png" alt="turtleXnails" width="180" height="44" loading="lazy" decoding="async">
+                        </div>
+                        <div class="logo-chip">
+                            <img src="logos/cine-white.png" alt="Cine Videoproduktion" width="200" height="48" loading="lazy" decoding="async">
+                        </div>
+                        <div class="logo-chip">
+                            <img src="logos/foerderplus-white.png" alt="Förderplus" width="180" height="48" loading="lazy" decoding="async">
+                        </div>
+                    </div>
+                    <!-- Set 2 — identische Kopie für nahtlosen Loop (aria-hidden auf Bild-Ebene) -->
+                    <div class="logo-chip-set" aria-hidden="true">
+                        <div class="logo-chip">
+                            <img src="logos/allfix-white.png" alt="" width="180" height="44" loading="lazy" decoding="async">
+                        </div>
+                        <div class="logo-chip">
+                            <img src="logos/locally-visible-white.png" alt="" width="180" height="48" loading="lazy" decoding="async">
+                        </div>
+                        <div class="logo-chip">
+                            <img src="logos/turtlexnails-white.png" alt="" width="180" height="44" loading="lazy" decoding="async">
+                        </div>
+                        <div class="logo-chip">
+                            <img src="logos/cine-white.png" alt="" width="200" height="48" loading="lazy" decoding="async">
+                        </div>
+                        <div class="logo-chip">
+                            <img src="logos/foerderplus-white.png" alt="" width="180" height="48" loading="lazy" decoding="async">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leistungen Section -->
+        <section class="section-standard services" id="services">
+            <div class="container">
+                <h2>
+                    <span lang="de">Schwerpunkte</span>
+                    <span lang="en">Focus Areas</span>
+                </h2>
+                <p>
+                    <span lang="de">Von der statischen Seite bis zur KI-Integration — die Themen, mit denen ich arbeite und die ich vertiefe.</span>
+                    <span lang="en">From static sites to AI integrations — the areas I work in and keep deepening.</span>
+                </p>
+
+                <div class="grid glowing-container">
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        </span>
+                        <h3>
+                            <span lang="de">Webentwicklung</span>
+                            <span lang="en">Web Development</span>
+                        </h3>
+                        <p>
+                            <span lang="de">Schnelle, barrierefreie und DSGVO-konforme Websites — von der Landingpage bis zur mehrseitigen Unternehmensseite. Vanilla HTML/CSS/JS, kein Framework-Overhead.</span>
+                            <span lang="en">Fast, accessible and GDPR-compliant websites — from landing pages to multi-page corporate sites. Vanilla HTML/CSS/JS, no framework overhead.</span>
+                        </p>
+                    </article>
+
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                        </span>
+                        <h3>
+                            <span lang="de">Softwareentwicklung</span>
+                            <span lang="en">Software Development</span>
+                        </h3>
+                        <p>
+                            <span lang="de">Web-Applikationen mit klarer Architektur — Datenbanken, APIs, Supabase-Backend, TanStack-Frontend. Fokus auf wartbaren, strukturierten Code.</span>
+                            <span lang="en">Web applications with clean architecture — databases, APIs, Supabase backend, TanStack frontend. Focus on maintainable, structured code.</span>
+                        </p>
+                    </article>
+
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                        </span>
+                        <h3>
+                            <span lang="de">KI-Integration</span>
+                            <span lang="en">AI Integration</span>
+                        </h3>
+                        <p>
+                            <span lang="de">Einbindung von LLMs (Claude, GPT) in bestehende Anwendungen — Berichts-Generierung, Datenextraktion, KI-gestützte Workflows mit Prompt-Engineering und Caching.</span>
+                            <span lang="en">Integrating LLMs (Claude, GPT) into existing applications — report generation, data extraction, AI-powered workflows with prompt engineering and caching.</span>
+                        </p>
+                    </article>
+
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                        </span>
+                        <h3>
+                            <span lang="de">Automatisierung</span>
+                            <span lang="en">Automation</span>
+                        </h3>
+                        <p>
+                            <span lang="de">Repetitive Prozesse automatisieren — Web-Scraping, Daten-Pipelines, Zapier-Ablösung durch eigene Lösungen, Schnittstellen zwischen Tools und Systemen.</span>
+                            <span lang="en">Automating repetitive processes — web scraping, data pipelines, replacing no-code tools with custom solutions, connecting systems via APIs.</span>
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="section-standard skills" id="skills">
+            <div class="container">
+                <h2>
+                    <span lang="de">Technische Skills</span>
+                    <span lang="en">Technical Skills</span>
+                </h2>
+                <p>
+                    <span lang="de">Eine ehrliche Übersicht meiner aktuellen Fähigkeiten und aktiven Lernbereiche.</span>
+                    <span lang="en">An honest overview of my current capabilities and areas where I am actively expanding my knowledge.</span>
+                </p>
+                
+                <div class="skills-grid glowing-container">
+                    <div class="skill-category glowing-card primary">
+                        <h4>Core Skills</h4>
+                        <p class="category-desc">
+                            <span lang="de">Fundiertes Wissen für den Aufbau responsiver Interfaces.</span>
+                            <span lang="en">Technologies I use confidently to build responsive interfaces.</span>
+                        </p>
+                        <div class="tags">
+                            <span class="tag expert">HTML5</span>
+                            <span class="tag expert">CSS3</span>
+                            <span class="tag expert">SCSS / SASS</span>
+                            <span class="tag expert">Responsive Design</span>
+                            <span class="tag expert">UI / UX Fundamentals</span>
+                            <span class="tag expert">Accessibility Awareness</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category glowing-card">
+                        <h4>
+                            <span lang="de">Erweiterte Kenntnisse</span>
+                            <span lang="en">Working Knowledge & Expanding</span>
+                        </h4>
+                        <p class="category-desc">
+                            <span lang="de">Konzepte und Werkzeuge zum Aufbau eines breiteren Projektverständnisses.</span>
+                            <span lang="en">Concepts and tools I am learning to build broader project understanding.</span>
+                        </p>
+                        <div class="tags">
+                            <span class="tag">Java (Basic)</span>
+                            <span class="tag">JavaScript (Basic)</span>
+                            <span class="tag">Python (Basic)</span>
+                            <span class="tag">Software Engineering Basics</span>
+                            <span class="tag">Clean Project Structure</span>
+                            <span class="tag">AI-Assisted Workflows</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Assisted Workflow -->
+        <section class="section-standard tech-profile" id="profil">
+            <div class="container">
+                <h2>
+                    <span lang="de">KI-gestützte Entwicklung</span>
+                    <span lang="en">AI-Assisted Development</span>
+                </h2>
+                <p>
+                    <span lang="de">Ich nutze KI-Workflows, nicht um Entwicklungskompetenz zu ersetzen, sondern um Problemlösungen und Lernen zu beschleunigen.</span>
+                    <span lang="en">I actively experiment with AI-assisted workflows. The goal is not replacing development skills, but accelerating problem-solving and learning.</span>
+                </p>
+                
+                <div class="grid glowing-container">
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        </span>
+                        <h3>Prompt Engineering</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Focus:</strong>
+                            <span lang="de">Präzise Kontextgestaltung für LLMs.</span>
+                            <span lang="en">Crafting precise context and instructions for LLMs.</span>
+                            <strong>Benefit:</strong>
+                            <span lang="de">Beschleunigt Boilerplate-Aufbau und löst komplexe logische Hürden.</span>
+                            <span lang="en">Speeds up boilerplate generation and helps break down complex logical hurdles.</span>
+                        </div>
+                    </article>
+                    
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                        </span>
+                        <h3>Architecture Planning</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Focus:</strong>
+                            <span lang="de">KI zur Validierung struktureller Konzepte.</span>
+                            <span lang="en">Using AI to validate structural concepts.</span>
+                            <strong>Benefit:</strong>
+                            <span lang="de">Dient als Sparringspartner zur Evaluierung technischer Ansätze.</span>
+                            <span lang="en">Provides a sounding board to evaluate different technical approaches before coding.</span>
+                        </div>
+                    </article>
+                    
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M13 6h3a2 2 0 0 1 2 2v7"></path><line x1="6" y1="9" x2="6" y2="21"></line></svg>
+                        </span>
+                        <h3>Debugging Assistance</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Focus:</strong>
+                            <span lang="de">Analyse von Fehler-Logs und Edge Cases.</span>
+                            <span lang="en">Analyzing error logs and understanding edge cases.</span>
+                            <strong>Benefit:</strong>
+                            <span lang="de">Reduziert Frustration im Entwicklungsprozess und beschleunigt das Lernen.</span>
+                            <span lang="en">Significantly reduces friction during development and accelerates the learning curve.</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="section-standard projects" id="referenzen">
+            <div class="container">
+                <h2>
+                    <span lang="de">Ausgewählte Projekte</span>
+                    <span lang="en">Selected Projects</span>
+                </h2>
+                <p>
+                    <span lang="de">Live-Kundenprojekte, Prototypen und Eigenentwicklungen. Weiterer Code auf <a href="https://github.com/karam-ababneh" target="_blank" rel="noopener noreferrer" style="color: var(--color-accent); text-decoration: none; font-weight: 600;">github.com/karam-ababneh</a>.</span>
+                    <span lang="en">Live client projects, prototypes and personal builds. More code at <a href="https://github.com/karam-ababneh" target="_blank" rel="noopener noreferrer" style="color: var(--color-accent); text-decoration: none; font-weight: 600;">github.com/karam-ababneh</a>.</span>
+                </p>
+                
+                <div class="project-grid glowing-container">
+                    
+                    <!-- Projekt 1: Cine Videoproduktion (Live & Featured!) -->
+                    <article class="project-card glowing-card accent-cine featured-project">
+                        <div class="project-image-container">
+                            <div class="project-image-placeholder bg-mesh-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+                                <span class="placeholder-title">Production</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Cine Videoproduktion <span class="live-badge"><span class="live-dot" aria-hidden="true"></span>Live</span></h3>
+                            <div class="project-details">
+                                <strong>Overview:</strong>
+                                <span lang="de">Live-Kundenprojekt mit eigener Domain. Responsive Unternehmenswebseite für eine Berliner Filmagentur.</span>
+                                <span lang="en">Live client project with custom domain. Responsive corporate website for a Berlin film agency.</span>
+
+                                <strong>Technologies:</strong><span>HTML, CSS, SCSS, JavaScript.</span>
+
+                                <strong>Outcome:</strong>
+                                <span lang="de">Auslieferung einer strukturierten Seite mit optimierter UI für zuverlässige Kundenanfragen.</span>
+                                <span lang="en">Delivered a clean, structured site with an optimized UI that reliably handles client inquiries.</span>
+                            </div>
+                            <div class="tags" style="margin-bottom: 1.5rem;">
+                                <span class="tag">Web Design</span>
+                                <span class="tag">UI/UX</span>
+                                <span class="tag">Cloudflare Pages</span>
+                                <span class="tag expert">Live Project</span>
+                            </div>
+                            <a href="https://www.cine-videoproduktion.de" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View Cine Videoproduktion">
+                                <span lang="de">Live ansehen</span>
+                                <span lang="en">View Live Site</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Projekt: ALLFIX Reinigungsservice (Live) -->
+                    <article class="project-card glowing-card accent-allfix">
+                        <div class="project-image-container">
+                            <div class="project-image-placeholder bg-mesh-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.287 1.288L3 12l5.8 1.9a2 2 0 0 1 1.288 1.287L12 21l1.9-5.8a2 2 0 0 1 1.287-1.288L21 12l-5.8-1.9a2 2 0 0 1-1.288-1.287Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
+                                <span class="placeholder-title">ALLFIX</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>ALLFIX Reinigungsservice <span class="live-badge"><span class="live-dot" aria-hidden="true"></span>Live</span></h3>
+                            <div class="project-details">
+                                <strong>Overview:</strong>
+                                <span lang="de">Live-Kundenprojekt mit eigener Domain. Statische, schnelle und DSGVO-konforme Website für einen Berliner Reinigungs- und Hausmeisterservice.</span>
+                                <span lang="en">Live client project with custom domain. Static, fast and GDPR-compliant website for a Berlin cleaning and facility service.</span>
+
+                                <strong>Technologies:</strong><span>HTML, CSS, JavaScript, Cloudflare Pages.</span>
+
+                                <strong>Outcome:</strong>
+                                <span lang="de">Eigene Domain mit SSL und Google-Workspace-Mail; vollständig live im Einsatz.</span>
+                                <span lang="en">Custom domain with SSL and Google Workspace mail; fully live in production.</span>
+                            </div>
+                            <div class="tags" style="margin-bottom: 1.5rem;">
+                                <span class="tag">Frontend</span>
+                                <span class="tag">Cloudflare Pages</span>
+                                <span class="tag expert">Live Project</span>
+                            </div>
+                            <a href="https://allfix-service.de" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View ALLFIX">
+                                <span lang="de">Live ansehen</span>
+                                <span lang="en">View Live</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Projekt 2: Personal Trainer Prototype -->
+                    <article class="project-card glowing-card accent-fitness">
+                        <div class="project-image-container">
+                            <div class="project-image-placeholder bg-mesh-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 20V10M12 20V4M6 20v-6"></path><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                <span class="placeholder-title">Fitness UI</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Personal Trainer Platform</h3>
+                            <div class="project-details">
+                                <strong>Overview:</strong>
+                                <span lang="de">Ein Frontend-Prototyp zur Buchung und Präsentation von Fitness-Dienstleistungen.</span>
+                                <span lang="en">A frontend prototype designed for booking and presenting fitness services.</span>
+                                
+                                <strong>Technologies:</strong><span>HTML, CSS, JavaScript.</span>
+                                
+                                <strong>Outcome:</strong>
+                                <span lang="de">Demonstriert responsives Komponenten-Design und saubere UI-Architektur.</span>
+                                <span lang="en">Demonstrates responsive component design and clean UI architecture.</span>
+                            </div>
+                            <div class="tags" style="margin-bottom: 1.5rem;">
+                                <span class="tag">Frontend</span>
+                                <span class="tag">Component Design</span>
+                                <span class="tag">Prototype</span>
+                            </div>
+                            <a href="https://passionfit-demo.netlify.app/" target="_blank" rel="noopener noreferrer" class="project-link">
+                                <span lang="de">Prototyp ansehen</span>
+                                <span lang="en">View Prototype</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Projekt 3: Coaching Portal -->
+                    <article class="project-card glowing-card accent-coaching">
+                        <div class="project-image-container">
+                            <div class="project-image-placeholder bg-mesh-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                                <span class="placeholder-title">Coaching</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>
+                                <span lang="de">Psychologische Beratung</span>
+                                <span lang="en">Psychological Counseling</span>
+                            </h3>
+                            <div class="project-details">
+                                <strong>Overview:</strong>
+                                <span lang="de">Ein interaktives UI-Konzept für ein psychologisches Beratungsportal.</span>
+                                <span lang="en">An interactive UI concept for a psychological counseling portal.</span>
+                                
+                                <strong>Technologies:</strong><span>HTML, SCSS, JavaScript.</span>
+                                
+                                <strong>Outcome:</strong>
+                                <span lang="de">Fokus auf professionelle Ästhetik, strukturiertes Layout und zielgerichtete Navigation.</span>
+                                <span lang="en">Focuses on professional aesthetics, structured layout, and targeted navigation.</span>
+                            </div>
+                            <div class="tags" style="margin-bottom: 1.5rem;">
+                                <span class="tag">Web Architecture</span>
+                                <span class="tag">Styling</span>
+                                <span class="tag">Prototype</span>
+                            </div>
+                            <a href="https://psychologisches-coaching-demo.netlify.app/" target="_blank" rel="noopener noreferrer" class="project-link">
+                                <span lang="de">Prototyp ansehen</span>
+                                <span lang="en">View Prototype</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Projekt 4: E-Learning (Medienkompetenz) -->
+                    <article class="project-card glowing-card accent-learning">
+                        <div class="project-image-container">
+                            <div class="project-image-placeholder bg-mesh-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                                <span class="placeholder-title">E-Learning</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>AI Literacy E-Learning</h3>
+                            <div class="project-details">
+                                <strong>Overview:</strong>
+                                <span lang="de">Eine Serie interaktiver Web-Präsentationen zur Vermittlung von KI-Grundlagen.</span>
+                                <span lang="en">A series of interactive web presentations teaching AI fundamentals.</span>
+                                
+                                <strong>Technologies:</strong><span>HTML, CSS, JavaScript.</span>
+                                
+                                <strong>Outcome:</strong>
+                                <span lang="de">Verbindet Medientheorie aus dem Studium mit praktischer Frontend-Umsetzung.</span>
+                                <span lang="en">Combines media theory from my studies with practical frontend execution.</span>
+                            </div>
+                            <div class="tags" style="margin-bottom: 1.5rem;">
+                                <span class="tag">Education</span>
+                                <span class="tag">Interactive UI</span>
+                                <span class="tag">Concept</span>
+                            </div>
+                            <a href="https://e-learning-ki-intro-lesson.netlify.app/" target="_blank" rel="noopener noreferrer" class="project-link">
+                                <span lang="de">Modul ansehen</span>
+                                <span lang="en">View Module</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Projekt 5: CV Tool -->
+                    <article class="project-card glowing-card accent-cv">
+                        <div class="project-image-container">
+                            <div class="project-image-placeholder bg-mesh-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                <span class="placeholder-title">Resume UI</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Dynamic CV Tool</h3>
+                            <div class="project-details">
+                                <strong>Overview:</strong>
+                                <span lang="de">Ein Frontend-Prototyp zur dynamischen Erstellung und Formatierung von Lebensläufen.</span>
+                                <span lang="en">A frontend prototype for dynamic resume creation and formatting.</span>
+                                
+                                <strong>Technologies:</strong><span>HTML, CSS, JavaScript.</span>
+                                
+                                <strong>Outcome:</strong>
+                                <span lang="de">Fokus auf komplexe Formularverarbeitung und DOM-Aktualisierung in Echtzeit.</span>
+                                <span lang="en">Focuses on complex form handling and real-time DOM manipulation.</span>
+                            </div>
+                            <div class="tags" style="margin-bottom: 1.5rem;">
+                                <span class="tag">Frontend</span>
+                                <span class="tag">DOM</span>
+                                <span class="tag">Tooling</span>
+                            </div>
+                            <a href="https://cv-tool-demo.netlify.app/" target="_blank" rel="noopener noreferrer" class="project-link">
+                                <span lang="de">Prototyp ansehen</span>
+                                <span lang="en">View Prototype</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Projekt 6: IG Tool -->
+                    <article class="project-card glowing-card accent-ig">
+                        <div class="project-image-container">
+                            <div class="project-image-placeholder bg-mesh-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                                <span class="placeholder-title">Creator UI</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>IG Content Creator</h3>
+                            <div class="project-details">
+                                <strong>Overview:</strong>
+                                <span lang="de">Ein UI-Prototyp zur Erstellung von Social-Media Inhalten mit API-Anbindungsmöglichkeit.</span>
+                                <span lang="en">A tool prototype for creating social media content, designed for API integration.</span>
+                                
+                                <strong>Technologies:</strong><span>HTML, CSS, JavaScript.</span>
+                                
+                                <strong>Outcome:</strong>
+                                <span lang="de">Demonstriert die Architektur für datengetriebene Interfaces und asynchrone Datenverarbeitung.</span>
+                                <span lang="en">Demonstrates the architecture of data-driven interfaces and asynchronous preparations.</span>
+                            </div>
+                            <div class="tags" style="margin-bottom: 1.5rem;">
+                                <span class="tag">UI/UX</span>
+                                <span class="tag">Tooling</span>
+                                <span class="tag">API Ready</span>
+                            </div>
+                            <a href="https://ig-tool-demo.netlify.app/" target="_blank" rel="noopener noreferrer" class="project-link">
+                                <span lang="de">Prototyp ansehen</span>
+                                <span lang="en">View Prototype</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Development Principles -->
+        <section class="section-standard results" id="ergebnisse">
+            <div class="container">
+                <h2>
+                    <span lang="de">Entwicklungsprinzipien</span>
+                    <span lang="en">Development Principles</span>
+                </h2>
+                <p>
+                    <span lang="de">Kernwerte, die meine Arbeit leiten und wartbaren Code gewährleisten.</span>
+                    <span lang="en">Core guidelines I follow to ensure my code is reliable, readable, and easy to maintain.</span>
+                </p>
+                
+                <div class="grid glowing-container">
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        </span>
+                        <h3>Clean Code</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Approach:</strong>
+                            <span lang="de">Schreiben von gut strukturiertem und dokumentiertem Code.</span>
+                            <span lang="en">Writing code that is well-structured and properly documented.</span>
+                            <strong>Benefit:</strong>
+                            <span lang="de">Stellt sicher, dass Projekte verständlich und teamfreundlich bleiben.</span>
+                            <span lang="en">Ensures that projects remain understandable and team-friendly over time.</span>
+                        </div>
+                    </article>
+                    
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        </span>
+                        <h3>User-Centric</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Approach:</strong>
+                            <span lang="de">Priorisierung intuitiver Navigation und Barrierefreiheit.</span>
+                            <span lang="en">Prioritizing intuitive navigation and web accessibility standards.</span>
+                            <strong>Benefit:</strong>
+                            <span lang="de">Schafft inklusive Erlebnisse auf verschiedenen Endgeräten.</span>
+                            <span lang="en">Creates inclusive experiences that work reliably across different devices.</span>
+                        </div>
+                    </article>
+                    
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 17 22 12"></polyline></svg>
+                        </span>
+                        <h3>Pragmatism</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Approach:</strong>
+                            <span lang="de">Einsatz nativer Web-Technologien statt schwerer Frameworks.</span>
+                            <span lang="en">Choosing native web technologies over heavy frameworks when appropriate.</span>
+                            <strong>Benefit:</strong>
+                            <span lang="de">Hält die Codebasis leichtgewichtig und reduziert Komplexität.</span>
+                            <span lang="en">Keeps the codebase lightweight and reduces technical complexity.</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why work with me? -->
+        <section class="section-standard philosophy" id="philosophy">
+            <div class="container">
+                <h2>
+                    <span lang="de">Warum eine Zusammenarbeit?</span>
+                    <span lang="en">Why work with me?</span>
+                </h2>
+                <p>
+                    <span lang="de">Was Sie bei einer Integration in Ihr Team erwarten können.</span>
+                    <span lang="en">What you can expect when collaborating on a project or integrating me into your team.</span>
+                </p>
+                
+                <ul class="philosophy-list">
+                    <li>
+                        <strong>
+                            <span lang="de">Strukturierte Denkweise</span>
+                            <span lang="en">Structured Thinking</span>
+                        </strong>
+                        <span lang="de">Ich zerlege komplexe Anforderungen in logische, umsetzbare Schritte.</span>
+                        <span lang="en">I break down complex requirements into logical, actionable steps before writing code.</span>
+                    </li>
+                    <li>
+                        <strong>
+                            <span lang="de">Zuverlässige Kommunikation</span>
+                            <span lang="en">Reliable Communication</span>
+                        </strong>
+                        <span lang="de">Ich schätze Transparenz, stelle Fragen und dokumentiere den Fortschritt.</span>
+                        <span lang="en">I value transparency, ask the right questions, and document my progress clearly.</span>
+                    </li>
+                    <li>
+                        <strong>
+                            <span lang="de">Schnelle Auffassungsgabe</span>
+                            <span lang="en">Fast Learner</span>
+                        </strong>
+                        <span lang="de">Als Student ist Lernen meine Kernkompetenz. Ich begreife neue Konzepte schnell und integriere mich nahtlos.</span>
+                        <span lang="en">As a student, my primary skill is learning. I quickly grasp new concepts and integrate smoothly into existing workflows.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Technical Focus Areas -->
+        <section class="section-standard metrics" id="metriken">
+            <div class="container">
+                <h2>
+                    <span lang="de">Technische Fokusbereiche</span>
+                    <span lang="en">Technical Focus Areas</span>
+                </h2>
+                <p>
+                    <span lang="de">Bereiche der Webentwicklung, die ich studiere und praktisch anwende.</span>
+                    <span lang="en">Areas of web development I continuously study and apply to my practical work.</span>
+                </p>
+                
+                <div class="grid glowing-container">
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        </span>
+                        <h3>Web Architecture</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Focus:</strong>
+                            <span lang="de">Kommunikation zwischen Client, Server und APIs.</span>
+                            <span lang="en">Understanding how client, server, and APIs communicate.</span>
+                            <strong>Goal:</strong>
+                            <span lang="de">Solides Modell für zukünftige Fullstack-Integrationen.</span>
+                            <span lang="en">Building a reliable mental model for future full-stack integration.</span>
+                        </div>
+                    </article>
+                    
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                        </span>
+                        <h3>Performance</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Focus:</strong>
+                            <span lang="de">Semantisches HTML und effizientes CSS.</span>
+                            <span lang="en">Writing semantic HTML and efficient CSS.</span>
+                            <strong>Goal:</strong>
+                            <span lang="de">Schnelle Ladezeiten ohne unnötige Abhängigkeiten.</span>
+                            <span lang="en">Ensuring fast load times without relying on unnecessary dependencies.</span>
+                        </div>
+                    </article>
+                    
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </span>
+                        <h3>Accessibility</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Focus:</strong>
+                            <span lang="de">Semantische Tags und ARIA-Attribute.</span>
+                            <span lang="en">Applying semantic tags and ARIA attributes correctly.</span>
+                            <strong>Goal:</strong>
+                            <span lang="de">Inklusive und nutzbare Web-Interfaces für alle.</span>
+                            <span lang="en">Making web interfaces usable and inclusive for everyone.</span>
+                        </div>
+                    </article>
+
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                        </span>
+                        <h3>Maintainability</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Focus:</strong>
+                            <span lang="de">DRY-Prinzipien und modulares Styling.</span>
+                            <span lang="en">Following DRY principles and modular styling.</span>
+                            <strong>Goal:</strong>
+                            <span lang="de">Skalierbarkeit von Stylesheets und Projektlogik.</span>
+                            <span lang="en">Keeping stylesheets and project logic scalable.</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gamified Assessment Section -->
+        <section class="section-standard assessment" id="projekt-start">
+            <div class="container assessment-container">
+                <div class="assessment-card glowing-card">
+                    <div class="progress-bar-bg" aria-hidden="true">
+                        <div class="progress-bar-fill" id="assessmentProgress"></div>
+                    </div>
+                    
+                    <!-- Step 1 -->
+                    <div class="assessment-step active" id="step1">
+                        <h3>
+                            <span lang="de">Welche Art der Zusammenarbeit suchen Sie?</span>
+                            <span lang="en">What kind of collaboration are you looking for?</span>
+                        </h3>
+                        <div class="answer-grid">
+                            <button class="answer-btn" onclick="nextStep(1, this)">
+                                <span lang="de">Junior Frontend Rolle</span>
+                                <span lang="en">Junior Frontend Role</span>
+                            </button>
+                            <button class="answer-btn" onclick="nextStep(1, this)">
+                                <span lang="de">Werkstudent / Praktikum</span>
+                                <span lang="en">Working Student / Internship</span>
+                            </button>
+                            <button class="answer-btn" onclick="nextStep(1, this)">
+                                <span lang="de">Freelance Projekt-Support</span>
+                                <span lang="en">Freelance Project Support</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="assessment-step" id="step2">
+                        <h3>
+                            <span lang="de">Was ist der Hauptfokus der Rolle/des Projekts?</span>
+                            <span lang="en">What is the main focus of the role or project?</span>
+                        </h3>
+                        <div class="answer-grid">
+                            <button class="answer-btn" onclick="nextStep(2, this)">
+                                <span lang="de">UI/UX Implementierung</span>
+                                <span lang="en">UI/UX Implementation</span>
+                            </button>
+                            <button class="answer-btn" onclick="nextStep(2, this)">
+                                <span lang="de">Code-Strukturierung & Wartung</span>
+                                <span lang="en">Code Structuring & Maintenance</span>
+                            </button>
+                            <button class="answer-btn" onclick="nextStep(2, this)">
+                                <span lang="de">Allgemeine Frontend Entwicklung</span>
+                                <span lang="en">General Frontend Development</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="assessment-step" id="step3">
+                        <h3>
+                            <span lang="de">Wie sieht Ihre Zeitplanung aus?</span>
+                            <span lang="en">What is your timeline?</span>
+                        </h3>
+                        <div class="answer-grid">
+                            <button class="answer-btn" onclick="nextStep(3, this)">
+                                <span lang="de">Ab sofort</span>
+                                <span lang="en">Immediately</span>
+                            </button>
+                            <button class="answer-btn" onclick="nextStep(3, this)">
+                                <span lang="de">In den nächsten Monaten</span>
+                                <span lang="en">In the upcoming months</span>
+                            </button>
+                            <button class="answer-btn" onclick="nextStep(3, this)">
+                                <span lang="de">Ich baue nur ein Netzwerk auf</span>
+                                <span lang="en">Just building a network</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Result Step -->
+                    <div class="assessment-step" id="stepResult">
+                        <div class="card-icon" style="margin: 0 auto 1.5rem auto;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                        <h3>
+                            <span lang="de">Danke für die Details.</span>
+                            <span lang="en">Thank you for the details.</span>
+                        </h3>
+                        <p>
+                            <span lang="de">Ich freue mich darauf, einen echten Mehrwert für Ihr Team zu leisten.</span>
+                            <span lang="en">I am eager to learn and contribute to a professional team. Let's connect!</span>
+                        </p>
+                        <a id="generateMailBtn" href="mailto:karam.a3@hotmail.com" class="btn btn-primary" style="margin-top: 1rem;">
+                            <span lang="de">Nachricht senden</span>
+                            <span lang="en">Send message</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section (Premium Highlight Card with Aceternity Background) -->
+        <section class="cta" id="contact">
+            <div class="container glowing-container">
+                <div class="cta-card glowing-card">
+                    <h2>
+                        <span lang="de">Kontakt aufnehmen</span>
+                        <span lang="en">Get in Touch</span>
+                    </h2>
+                    <p>
+                        <span lang="de">Interesse an einer Zusammenarbeit? Ich freue mich auf Ihre Nachricht.</span>
+                        <span lang="en">Interested in working together or discussing a project? Feel free to reach out.</span>
+                    </p>
+                    <div class="cta-actions">
+                        <a href="mailto:karam.a3@hotmail.com" class="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            karam.a3@hotmail.com
+                        </a>
+                        <a href="https://github.com/karam-ababneh" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            GitHub
+                        </a>
+                        <a href="https://instagram.com/karamatrix" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                            @karamatrix
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="year"></span> Karam Ababneh · KaraMatrix. All rights reserved.</p>
+            <p><small>Built with HTML, CSS & Vanilla JS.</small></p>
+            <div class="footer-links">
+                <button onclick="openModal('datenschutzModal')">Privacy Policy</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Datenschutz Modal (Rechtliche Texte bleiben auf Deutsch) -->
+    <dialog id="datenschutzModal" aria-labelledby="datenschutzTitle">
+        <div class="dialog-header">
+            <h2 id="datenschutzTitle">Datenschutzerklärung</h2>
+            <button class="btn-close" onclick="closeModal('datenschutzModal')" aria-label="Schließen">&times;</button>
+        </div>
+        <div class="legal-content">
+            <h3>1. Datenschutz auf einen Blick</h3>
+            <p><strong>Allgemeine Hinweise</strong><br>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen.</p>
+            <p><strong>Verantwortlicher</strong><br>Karam Ababneh, Berlin · E-Mail: karam.a3@hotmail.com</p>
+            <p><strong>Datenerfassung auf dieser Website</strong><br>Die Datenverarbeitung auf dieser Website erfolgt durch den oben genannten Verantwortlichen. Wir nutzen <strong>keine</strong> Analyse-Tools, kein Tracking und keine externen Web Fonts (wie Google Fonts), um Ihre Privatsphäre maximal zu schützen.</p>
+            
+            <h3>2. Hosting</h3>
+            <p>Diese Website wird extern gehostet. Personenbezogene Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert. Hierbei kann es sich v. a. um IP-Adressen, Meta- und Kommunikationsdaten handeln.</p>
+
+            <h3>3. Cookies & Lokaler Speicher</h3>
+            <p>Diese Seite verzichtet vollständig auf Tracking-Cookies. Wir nutzen lediglich den lokalen Speicher Ihres Browsers (`localStorage`), um Ihre Präferenz für das helle oder dunkle Design (Dark/Light Mode) sowie die Sprache zu speichern. Dieser Vorgang ist technisch notwendig, um die Funktion bereitzustellen und erfordert nach geltendem Recht keine aktive Einwilligung (Cookie-Banner).</p>
+            
+            <h3>4. Externe Links (Social Media / Messenger)</h3>
+            <p>Unsere Website enthält Links zu externen Diensten (z.B. Instagram, GitHub). Wenn Sie diese Links anklicken, verlassen Sie unsere Seite. Die Datenverarbeitung auf den Zielseiten entzieht sich unserer Kontrolle und unterliegt den Datenschutzbestimmungen der jeweiligen Anbieter.</p>
+        </div>
+    </dialog>
+
+    <!-- Minimales JS für Funktionalität & Performance-Vortex -->
+    <script>
+        // Set dynamic year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const htmlElement = document.documentElement;
+
+        // ==========================================
+        // Theme Toggle Logic
+        // ==========================================
+        const themeToggleBtn = document.getElementById('themeToggle');
+
+        function updateThemeIcon(theme) {
+            themeToggleBtn.setAttribute('aria-pressed', theme === 'dark');
+        }
+        
+        updateThemeIcon(htmlElement.getAttribute('data-theme'));
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        // ==========================================
+        // Language Toggle Logic
+        // ==========================================
+        const langToggleBtn = document.getElementById('langToggle');
+        const langIcon = document.getElementById('langIcon');
+
+        function updateLangIcon(lang) {
+            langIcon.textContent = lang === 'de' ? 'EN' : 'DE';
+        }
+
+        updateLangIcon(htmlElement.getAttribute('lang'));
+
+        langToggleBtn.addEventListener('click', () => {
+            const currentLang = htmlElement.getAttribute('lang');
+            const newLang = currentLang === 'de' ? 'en' : 'de';
+            htmlElement.setAttribute('lang', newLang);
+            localStorage.setItem('lang', newLang);
+            updateLangIcon(newLang);
+            updateMailToLink(); // E-Mail direkt dynamisch an neue Sprache anpassen
+        });
+
+        // ==========================================
+        // Gamified Assessment Logic
+        // ==========================================
+        const userAnswers = [];
+        const totalSteps = 3;
+
+        function nextStep(currentStep, btnElement) {
+            // Speichert die Antwort in BEIDEN Sprachen im Array
+            const deText = btnElement.querySelector('span[lang="de"]').textContent;
+            const enText = btnElement.querySelector('span[lang="en"]').textContent;
+            
+            userAnswers[currentStep - 1] = { de: deText, en: enText };
+            
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('assessmentProgress').style.width = `${progress}%`;
+            
+            if (currentStep < totalSteps) {
+                document.getElementById(`step${currentStep + 1}`).classList.add('active');
+            } else {
+                document.getElementById('stepResult').classList.add('active');
+                updateMailToLink();
+            }
+        }
+
+        function updateMailToLink() {
+            // Verhindert Fehler, wenn der User den Bogen noch nicht beendet hat
+            if (userAnswers.length < totalSteps || !userAnswers[totalSteps - 1]) return;
+            
+            const currentLang = htmlElement.getAttribute('lang');
+            const subject = encodeURIComponent(currentLang === 'de' ? "Portfolio Anfrage: Zusammenarbeit" : "Portfolio Inquiry: Collaboration");
+            
+            let bodyText = "";
+            if (currentLang === 'de') {
+                bodyText = `Hallo Karam,\n\nich habe das Kontaktformular auf deinem Portfolio genutzt. Hier sind die Eckdaten:\n\n1. Art der Zusammenarbeit: ${userAnswers[0].de}\n2. Hauptfokus: ${userAnswers[1].de}\n3. Zeitplanung: ${userAnswers[2].de}\n\nLass uns gerne austauschen.\n\nViele Grüße\n[Dein Name]`;
+            } else {
+                bodyText = `Hi Karam,\n\nI used the contact form on your portfolio. Here are the details:\n\n1. Collaboration type: ${userAnswers[0].en}\n2. Main focus: ${userAnswers[1].en}\n3. Timeline: ${userAnswers[2].en}\n\nLet's get in touch to discuss potential opportunities.\n\nBest regards,\n[Your Name]`;
+            }
+
+            document.getElementById('generateMailBtn').href = `mailto:karam.a3@hotmail.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+        }
+
+        // ==========================================
+        // High-Performance Vortex Canvas Animation
+        // ==========================================
+        const canvas = document.getElementById('vortexCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        let particles = [];
+        let animationFrameId;
+        let isVisible = true;
+        let prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        class Particle {
+            constructor(w, h) {
+                this.w = w; this.h = h;
+                this.reset(true);
+            }
+            reset(randomizeRadius = false) {
+                this.angle = Math.random() * Math.PI * 2;
+                const maxRadius = Math.max(this.w, this.h) * 0.8;
+                this.radius = randomizeRadius ? Math.random() * maxRadius : maxRadius;
+                this.speed = (Math.random() * 0.002) + 0.0005;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.z = Math.random() * 0.5 + 0.1;
+                this.colorIndex = Math.floor(Math.random() * 3);
+            }
+            update() {
+                this.angle += this.speed;
+                this.radius -= this.z;
+                if (this.radius < 0) this.reset();
+            }
+            draw(ctx, accentColorsRGB) {
+                const x = Math.cos(this.angle) * this.radius;
+                const y = Math.sin(this.angle) * this.radius;
+                
+                const maxRadius = Math.max(this.w, this.h) * 0.8;
+                let opacity = 1;
+                if (this.radius > maxRadius * 0.8) opacity = (maxRadius - this.radius) / (maxRadius * 0.2);
+                if (this.radius < 50) opacity = this.radius / 50;
+                
+                ctx.fillStyle = `rgba(${accentColorsRGB[this.colorIndex]}, ${Math.max(0, opacity)})`;
+                ctx.beginPath();
+                ctx.arc(x, y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+            particles = [];
+            const particleCount = window.innerWidth < 768 ? 150 : 350;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle(canvas.width, canvas.height));
+            }
+        }
+
+        function getThemeColors() {
+            const isDark = htmlElement.getAttribute('data-theme') === 'dark';
+            return {
+                bg: isDark ? '#000000' : '#f5f5f7',
+                accentRGBs: isDark 
+                    ? ['197, 160, 89', '212, 175, 55', '166, 124, 0'] 
+                    : ['181, 149, 47', '200, 160, 40', '139, 101, 8']
+            };
+        }
+
+        function drawVortex() {
+            if (!isVisible || prefersReducedMotion) return;
+
+            const colors = getThemeColors();
+            ctx.fillStyle = colors.bg;
+            ctx.globalAlpha = 0.15;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalAlpha = 1.0;
+
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            particles.forEach(p => { p.update(); p.draw(ctx, colors.accentRGBs); });
+            ctx.restore();
+            
+            animationFrameId = requestAnimationFrame(drawVortex);
+        }
+
+        if (!prefersReducedMotion) {
+            resizeCanvas();
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                if (prefersReducedMotion) return;
+                if (!isVisible) {
+                    ctx.fillStyle = getThemeColors().bg;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    isVisible = entry.isIntersecting;
+                    if (isVisible) {
+                        drawVortex();
+                    } else {
+                        cancelAnimationFrame(animationFrameId);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            observer.observe(document.querySelector('.hero'));
+        } else {
+            ctx.fillStyle = getThemeColors().bg;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // ==========================================
+        // Aceternity Glowing Effect (Vanilla JS)
+        // ==========================================
+        if (!prefersReducedMotion) {
+            const glowingContainers = document.querySelectorAll('.glowing-container');
+            glowingContainers.forEach(container => {
+                container.addEventListener('mousemove', (e) => {
+                    const cards = container.querySelectorAll('.glowing-card');
+                    cards.forEach(card => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        card.style.setProperty('--mouse-x', `${x}px`);
+                        card.style.setProperty('--mouse-y', `${y}px`);
+                    });
+                });
+            });
+        }
+
+        // ==========================================
+        // Modal / Dialog Logic
+        // ==========================================
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.showModal();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.close();
+            document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('dialog').forEach(dialog => {
+            dialog.addEventListener('click', (e) => {
+                const rect = dialog.getBoundingClientRect();
+                const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
+                                    rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+                if (!isInDialog) { closeModal(dialog.id); }
+            });
+        });
+    </script>
+</body>
+</html>
