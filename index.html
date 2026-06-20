@@ -170,7 +170,7 @@
             letter-spacing: -0.05em;
         }
 
-        .logo span { color: var(--color-accent); }
+        /* Logo nutzt die Wordmark-Klassen (.wm-m / .wm-au) — kein pauschales span-Coloring mehr */
 
         .header-controls {
             display: flex;
@@ -307,6 +307,16 @@
             0% { background-position: -200% center; }
             100% { background-position: 200% center; }
         }
+
+        /* Brand-Wordmark: Kara = Textfarbe, M = halb Text/halb Gold, atrix = Gold (#c5a059 fix, theme-unabhängig) */
+        .wm { color: var(--color-text); font-weight: 700; white-space: nowrap; }
+        .wm-m {
+            background: linear-gradient(90deg, var(--color-text) 0 50%, #c5a059 50% 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .wm-au { color: #c5a059; }
 
         .text-shimmer {
             background: linear-gradient(to right, var(--color-text) 20%, var(--color-accent) 40%, var(--color-text) 60%);
@@ -885,7 +895,7 @@
     <header>
         <nav aria-label="Hauptnavigation">
             <div class="container nav-content">
-                <a href="#" class="logo">Kara<span>Matrix</span></a>
+                <a href="#" class="logo">Kara<span class="wm-m">M</span><span class="wm-au">atrix</span></a>
                 
                 <div class="header-controls">
                     <!-- Sprach-Toggle -->
@@ -910,12 +920,12 @@
             <canvas id="vortexCanvas" aria-hidden="true"></canvas>
             <div class="container hero-content">
                 <span class="badge">
-                    <span lang="de">KaraMatrix · KI &amp; Automatisierung</span>
-                    <span lang="en">KaraMatrix · AI &amp; Automation</span>
+                    <span lang="de"><span class="wm">Kara<span class="wm-m">M</span><span class="wm-au">atrix</span></span> · KI &amp; Automatisierung</span>
+                    <span lang="en"><span class="wm">Kara<span class="wm-m">M</span><span class="wm-au">atrix</span></span> · AI &amp; Automation</span>
                 </span>
                 <h1>
-                    <span lang="de"><span class="text-shimmer">KI &amp; Automatisierung.</span><br>Karam Ababneh.</span>
-                    <span lang="en"><span class="text-shimmer">AI &amp; Automation.</span><br>Karam Ababneh.</span>
+                    <span lang="de"><span class="text-shimmer">Karam Ababneh.</span></span>
+                    <span lang="en"><span class="text-shimmer">Karam Ababneh.</span></span>
                 </h1>
                 <p>
                     <span lang="de">Softwareentwickler (Medieninformatik) mit Fokus auf KI-Integration und Automatisierung. Ich baue Web-Anwendungen, verbinde sie mit KI-Workflows und automatisiere, was repetitiv ist.</span>
@@ -1735,7 +1745,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; <span id="year"></span> Karam Ababneh · KaraMatrix. All rights reserved.</p>
+            <p>&copy; <span id="year"></span> Karam Ababneh · <span class="wm">Kara<span class="wm-m">M</span><span class="wm-au">atrix</span></span>. All rights reserved.</p>
             <p><small>Built with HTML, CSS & Vanilla JS.</small></p>
             <div class="footer-links">
                 <button onclick="openModal('datenschutzModal')">Privacy Policy</button>
