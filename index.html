@@ -585,7 +585,7 @@
             .live-dot { animation: none; }
         }
 
-        .project-card { padding: 1.5rem; display: flex; flex-direction: column; }
+        .project-card { padding: 1.5rem; display: flex; flex-direction: column; cursor: pointer; }
         .project-card:hover {
             transform: translateY(-5px);
             border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
@@ -1066,118 +1066,6 @@
             </div>
         </section>
 
-        <!-- Skills Section -->
-        <section class="section-standard skills" id="skills">
-            <div class="container">
-                <h2>
-                    <span lang="de">Technische Skills</span>
-                    <span lang="en">Technical Skills</span>
-                </h2>
-                <p>
-                    <span lang="de">Eine ehrliche Übersicht meiner aktuellen Fähigkeiten und aktiven Lernbereiche.</span>
-                    <span lang="en">An honest overview of my current capabilities and areas where I am actively expanding my knowledge.</span>
-                </p>
-                
-                <div class="skills-grid glowing-container">
-                    <div class="skill-category glowing-card primary">
-                        <h4>Core Skills</h4>
-                        <p class="category-desc">
-                            <span lang="de">Fundiertes Wissen für den Aufbau responsiver Interfaces.</span>
-                            <span lang="en">Technologies I use confidently to build responsive interfaces.</span>
-                        </p>
-                        <div class="tags">
-                            <span class="tag expert">HTML5</span>
-                            <span class="tag expert">CSS3</span>
-                            <span class="tag expert">SCSS / SASS</span>
-                            <span class="tag expert">Responsive Design</span>
-                            <span class="tag expert">UI / UX Fundamentals</span>
-                            <span class="tag expert">Accessibility Awareness</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category glowing-card">
-                        <h4>
-                            <span lang="de">Erweiterte Kenntnisse</span>
-                            <span lang="en">Working Knowledge & Expanding</span>
-                        </h4>
-                        <p class="category-desc">
-                            <span lang="de">Konzepte und Werkzeuge zum Aufbau eines breiteren Projektverständnisses.</span>
-                            <span lang="en">Concepts and tools I am learning to build broader project understanding.</span>
-                        </p>
-                        <div class="tags">
-                            <span class="tag">Java (Basic)</span>
-                            <span class="tag">JavaScript (Basic)</span>
-                            <span class="tag">Python (Basic)</span>
-                            <span class="tag">Software Engineering Basics</span>
-                            <span class="tag">Clean Project Structure</span>
-                            <span class="tag">AI-Assisted Workflows</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- AI Assisted Workflow -->
-        <section class="section-standard tech-profile" id="profil">
-            <div class="container">
-                <h2>
-                    <span lang="de">KI-gestützte Entwicklung</span>
-                    <span lang="en">AI-Assisted Development</span>
-                </h2>
-                <p>
-                    <span lang="de">Ich nutze KI-Workflows, nicht um Entwicklungskompetenz zu ersetzen, sondern um Problemlösungen und Lernen zu beschleunigen.</span>
-                    <span lang="en">I actively experiment with AI-assisted workflows. The goal is not replacing development skills, but accelerating problem-solving and learning.</span>
-                </p>
-                
-                <div class="grid glowing-container">
-                    <article class="card glowing-card">
-                        <span class="card-icon" aria-hidden="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-                        </span>
-                        <h3>Prompt Engineering</h3>
-                        <div class="project-details" style="margin-bottom: 0;">
-                            <strong>Focus:</strong>
-                            <span lang="de">Präzise Kontextgestaltung für LLMs.</span>
-                            <span lang="en">Crafting precise context and instructions for LLMs.</span>
-                            <strong>Benefit:</strong>
-                            <span lang="de">Beschleunigt Boilerplate-Aufbau und löst komplexe logische Hürden.</span>
-                            <span lang="en">Speeds up boilerplate generation and helps break down complex logical hurdles.</span>
-                        </div>
-                    </article>
-                    
-                    <article class="card glowing-card">
-                        <span class="card-icon" aria-hidden="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
-                        </span>
-                        <h3>Architecture Planning</h3>
-                        <div class="project-details" style="margin-bottom: 0;">
-                            <strong>Focus:</strong>
-                            <span lang="de">KI zur Validierung struktureller Konzepte.</span>
-                            <span lang="en">Using AI to validate structural concepts.</span>
-                            <strong>Benefit:</strong>
-                            <span lang="de">Dient als Sparringspartner zur Evaluierung technischer Ansätze.</span>
-                            <span lang="en">Provides a sounding board to evaluate different technical approaches before coding.</span>
-                        </div>
-                    </article>
-                    
-                    <article class="card glowing-card">
-                        <span class="card-icon" aria-hidden="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M13 6h3a2 2 0 0 1 2 2v7"></path><line x1="6" y1="9" x2="6" y2="21"></line></svg>
-                        </span>
-                        <h3>Debugging Assistance</h3>
-                        <div class="project-details" style="margin-bottom: 0;">
-                            <strong>Focus:</strong>
-                            <span lang="de">Analyse von Fehler-Logs und Edge Cases.</span>
-                            <span lang="en">Analyzing error logs and understanding edge cases.</span>
-                            <strong>Benefit:</strong>
-                            <span lang="de">Reduziert Frustration im Entwicklungsprozess und beschleunigt das Lernen.</span>
-                            <span lang="en">Significantly reduces friction during development and accelerates the learning curve.</span>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
         <!-- Projects Section -->
         <section class="section-standard projects" id="referenzen">
             <div class="container">
@@ -1437,6 +1325,119 @@
                 </div>
             </div>
         </section>
+
+        <!-- Skills Section -->
+        <section class="section-standard skills" id="skills">
+            <div class="container">
+                <h2>
+                    <span lang="de">Technische Skills</span>
+                    <span lang="en">Technical Skills</span>
+                </h2>
+                <p>
+                    <span lang="de">Eine ehrliche Übersicht meiner aktuellen Fähigkeiten und aktiven Lernbereiche.</span>
+                    <span lang="en">An honest overview of my current capabilities and areas where I am actively expanding my knowledge.</span>
+                </p>
+                
+                <div class="skills-grid glowing-container">
+                    <div class="skill-category glowing-card primary">
+                        <h4>Core Skills</h4>
+                        <p class="category-desc">
+                            <span lang="de">Fundiertes Wissen für den Aufbau responsiver Interfaces.</span>
+                            <span lang="en">Technologies I use confidently to build responsive interfaces.</span>
+                        </p>
+                        <div class="tags">
+                            <span class="tag expert">HTML5</span>
+                            <span class="tag expert">CSS3</span>
+                            <span class="tag expert">SCSS / SASS</span>
+                            <span class="tag expert">Responsive Design</span>
+                            <span class="tag expert">UI / UX Fundamentals</span>
+                            <span class="tag expert">Accessibility Awareness</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category glowing-card">
+                        <h4>
+                            <span lang="de">Erweiterte Kenntnisse</span>
+                            <span lang="en">Working Knowledge & Expanding</span>
+                        </h4>
+                        <p class="category-desc">
+                            <span lang="de">Konzepte und Werkzeuge zum Aufbau eines breiteren Projektverständnisses.</span>
+                            <span lang="en">Concepts and tools I am learning to build broader project understanding.</span>
+                        </p>
+                        <div class="tags">
+                            <span class="tag">Java (Basic)</span>
+                            <span class="tag">JavaScript (Basic)</span>
+                            <span class="tag">Python (Basic)</span>
+                            <span class="tag">Software Engineering (Basic)</span>
+                            <span class="tag">Clean Project Structure</span>
+                            <span class="tag">AI-Assisted Workflows</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Assisted Workflow -->
+        <section class="section-standard tech-profile" id="profil">
+            <div class="container">
+                <h2>
+                    <span lang="de">KI-gestützte Entwicklung</span>
+                    <span lang="en">AI-Assisted Development</span>
+                </h2>
+                <p>
+                    <span lang="de">Ich nutze KI-Workflows, nicht um Entwicklungskompetenz zu ersetzen, sondern um Problemlösungen und Lernen zu beschleunigen.</span>
+                    <span lang="en">I actively experiment with AI-assisted workflows. The goal is not replacing development skills, but accelerating problem-solving and learning.</span>
+                </p>
+                
+                <div class="grid glowing-container">
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        </span>
+                        <h3>Prompt Engineering</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Focus:</strong>
+                            <span lang="de">Präzise Kontextgestaltung für LLMs.</span>
+                            <span lang="en">Crafting precise context and instructions for LLMs.</span>
+                            <strong>Benefit:</strong>
+                            <span lang="de">Beschleunigt Boilerplate-Aufbau und löst komplexe logische Hürden.</span>
+                            <span lang="en">Speeds up boilerplate generation and helps break down complex logical hurdles.</span>
+                        </div>
+                    </article>
+                    
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                        </span>
+                        <h3>Architecture Planning</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Focus:</strong>
+                            <span lang="de">KI zur Validierung struktureller Konzepte.</span>
+                            <span lang="en">Using AI to validate structural concepts.</span>
+                            <strong>Benefit:</strong>
+                            <span lang="de">Dient als Sparringspartner zur Evaluierung technischer Ansätze.</span>
+                            <span lang="en">Provides a sounding board to evaluate different technical approaches before coding.</span>
+                        </div>
+                    </article>
+                    
+                    <article class="card glowing-card">
+                        <span class="card-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M13 6h3a2 2 0 0 1 2 2v7"></path><line x1="6" y1="9" x2="6" y2="21"></line></svg>
+                        </span>
+                        <h3>Debugging Assistance</h3>
+                        <div class="project-details" style="margin-bottom: 0;">
+                            <strong>Focus:</strong>
+                            <span lang="de">Analyse von Fehler-Logs und Edge Cases.</span>
+                            <span lang="en">Analyzing error logs and understanding edge cases.</span>
+                            <strong>Benefit:</strong>
+                            <span lang="de">Reduziert Frustration im Entwicklungsprozess und beschleunigt das Lernen.</span>
+                            <span lang="en">Significantly reduces friction during development and accelerates the learning curve.</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
 
         <!-- Development Principles -->
         <section class="section-standard results" id="ergebnisse">
@@ -2016,6 +2017,22 @@
                 const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
                                     rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
                 if (!isInDialog) { closeModal(dialog.id); }
+            });
+        });
+    </script>
+
+    <!-- Ganze Projektkarte klickbar (Real-Link bleibt für Tastatur/Screenreader) -->
+    <script>
+        document.querySelectorAll('.project-card').forEach(function (card) {
+            var link = card.querySelector('.project-link');
+            if (!link) return;
+            card.addEventListener('click', function (e) {
+                if (e.target.closest('a, button')) return; // echte Links/Buttons normal lassen
+                if (link.target === '_blank') {
+                    window.open(link.href, '_blank', 'noopener');
+                } else {
+                    window.location.href = link.href;
+                }
             });
         });
     </script>
