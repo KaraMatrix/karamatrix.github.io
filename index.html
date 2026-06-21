@@ -476,9 +476,22 @@
 
         .skills-grid { margin-top: 3rem; }
 
+        /* Schwerpunkte: 4 Karten in EINER Reihe auf Desktop (weniger Höhe) */
+        @media (min-width: 900px) {
+            .services .grid > * {
+                flex: 1 1 0;
+                min-width: 0;
+                max-width: none;
+            }
+            .services .card { padding: 2rem 1.5rem; }
+        }
+
+        /* lange deutsche Komposita (z.B. Softwareentwicklung) sauber umbrechen statt abschneiden */
+        .card h3 { overflow-wrap: break-word; hyphens: auto; }
+
         .project-card.featured-project {
             flex: 1 1 100%;
-            max-width: 100%; 
+            max-width: 100%;
         }
 
         @media (min-width: 992px) {
@@ -497,6 +510,108 @@
                 padding: 0;
                 justify-content: center;
             }
+        }
+
+        /* =========================================================
+           Featured-Pair: allfix + cine (echte Live-Kundenprojekte)
+        ========================================================= */
+        .featured-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 767px) {
+            .featured-pair {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Karte im Featured-Pair: volle Breite, kein min-width Override */
+        .featured-pair .project-card {
+            flex: none;
+            min-width: 0;
+            max-width: none;
+        }
+
+        /* Browser-Frame-Mockup */
+        .browser-frame {
+            width: 100%;
+            border-radius: calc(var(--radius-card) - 0.5rem);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+        }
+
+        .browser-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 0.85rem;
+            background: color-mix(in srgb, var(--color-surface) 80%, var(--color-border));
+            border-bottom: 1px solid var(--color-border);
+            flex-shrink: 0;
+        }
+
+        .browser-dots {
+            display: flex;
+            gap: 0.35rem;
+            flex-shrink: 0;
+        }
+
+        .browser-dots span {
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--color-border);
+        }
+
+        .browser-dots span:nth-child(1) { background: #ff5f57; }
+        .browser-dots span:nth-child(2) { background: #febc2e; }
+        .browser-dots span:nth-child(3) { background: #28c840; }
+
+        .browser-url {
+            flex: 1;
+            background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.72rem;
+            color: var(--color-text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: 0.01em;
+            font-family: var(--font-main);
+        }
+
+        .browser-screenshot {
+            display: block;
+            width: 100%;
+            height: auto;              /* hebt den height="900"-Attribut-Hint auf → aspect-ratio greift */
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .project-card:hover .browser-screenshot {
+            transform: scale(1.03);
+        }
+
+        /* Zwischentitel vor Demo-Projekten */
+        .projects-subsection-title {
+            width: 100%;
+            margin-top: 3.5rem;
+            margin-bottom: 0;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
         }
 
         /* Specific Section Backgrounds */
@@ -1078,15 +1193,73 @@
                     <span lang="en">Live client projects, prototypes and personal builds. More code at <a href="https://github.com/karam-ababneh" target="_blank" rel="noopener noreferrer" style="color: var(--color-accent); text-decoration: none; font-weight: 600;">github.com/karam-ababneh</a>.</span>
                 </p>
                 
-                <div class="project-grid glowing-container">
-                    
-                    <!-- Projekt 1: Cine Videoproduktion (Live & Featured!) -->
-                    <article class="project-card glowing-card accent-cine featured-project">
-                        <div class="project-image-container">
-                            <div class="project-image-placeholder bg-mesh-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
-                                <span class="placeholder-title">Production</span>
+                <!-- Featured-Pair: allfix + cine — echte Live-Kundenprojekte -->
+                <div class="featured-pair">
+
+                    <!-- ALLFIX Reinigungsservice (Live) -->
+                    <article class="project-card glowing-card accent-allfix">
+                        <div class="browser-frame">
+                            <div class="browser-bar">
+                                <div class="browser-dots" aria-hidden="true">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="browser-url">allfix-service.de</span>
                             </div>
+                            <img
+                                src="images/allfix-site.jpg"
+                                width="1440"
+                                height="900"
+                                loading="lazy"
+                                decoding="async"
+                                alt="Screenshot der Live-Website allfix-service.de"
+                                class="browser-screenshot"
+                            >
+                        </div>
+                        <div class="project-info">
+                            <h3>ALLFIX Reinigungsservice <span class="live-badge"><span class="live-dot" aria-hidden="true"></span>Live</span></h3>
+                            <div class="project-details">
+                                <strong>Overview:</strong>
+                                <span lang="de">Live-Kundenprojekt mit eigener Domain. Statische, schnelle und DSGVO-konforme Website für einen Berliner Reinigungs- und Hausmeisterservice.</span>
+                                <span lang="en">Live client project with custom domain. Static, fast and GDPR-compliant website for a Berlin cleaning and facility service.</span>
+
+                                <strong>Technologies:</strong><span>HTML, CSS, JavaScript, Cloudflare Pages.</span>
+
+                                <strong>Outcome:</strong>
+                                <span lang="de">Eigene Domain mit SSL und Google-Workspace-Mail; vollständig live im Einsatz.</span>
+                                <span lang="en">Custom domain with SSL and Google Workspace mail; fully live in production.</span>
+                            </div>
+                            <div class="tags" style="margin-bottom: 1.5rem;">
+                                <span class="tag">Web Design</span>
+                                <span class="tag">UI/UX</span>
+                                <span class="tag">Cloudflare Pages</span>
+                                <span class="tag expert">Live</span>
+                            </div>
+                            <a href="https://www.allfix-service.de" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="ALLFIX Reinigungsservice live ansehen">
+                                <span lang="de">Live ansehen</span>
+                                <span lang="en">View Live Site</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Cine Videoproduktion (Live) -->
+                    <article class="project-card glowing-card accent-cine">
+                        <div class="browser-frame">
+                            <div class="browser-bar">
+                                <div class="browser-dots" aria-hidden="true">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="browser-url">cine-videoproduktion.de</span>
+                            </div>
+                            <img
+                                src="images/cine-site.jpg"
+                                width="1440"
+                                height="900"
+                                loading="lazy"
+                                decoding="async"
+                                alt="Screenshot der Live-Website cine-videoproduktion.de"
+                                class="browser-screenshot"
+                            >
                         </div>
                         <div class="project-info">
                             <h3>Cine Videoproduktion <span class="live-badge"><span class="live-dot" aria-hidden="true"></span>Live</span></h3>
@@ -1104,10 +1277,10 @@
                             <div class="tags" style="margin-bottom: 1.5rem;">
                                 <span class="tag">Web Design</span>
                                 <span class="tag">UI/UX</span>
-                                <span class="tag">Cloudflare Pages</span>
-                                <span class="tag expert">Live Project</span>
+                                <span class="tag">SCSS</span>
+                                <span class="tag expert">Live</span>
                             </div>
-                            <a href="https://www.cine-videoproduktion.de" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View Cine Videoproduktion">
+                            <a href="https://www.cine-videoproduktion.de" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Cine Videoproduktion live ansehen">
                                 <span lang="de">Live ansehen</span>
                                 <span lang="en">View Live Site</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -1115,39 +1288,15 @@
                         </div>
                     </article>
 
-                    <!-- Projekt: ALLFIX Reinigungsservice (Live) -->
-                    <article class="project-card glowing-card accent-allfix">
-                        <div class="project-image-container">
-                            <div class="project-image-placeholder bg-mesh-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.287 1.288L3 12l5.8 1.9a2 2 0 0 1 1.288 1.287L12 21l1.9-5.8a2 2 0 0 1 1.287-1.288L21 12l-5.8-1.9a2 2 0 0 1-1.288-1.287Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
-                                <span class="placeholder-title">ALLFIX</span>
-                            </div>
-                        </div>
-                        <div class="project-info">
-                            <h3>ALLFIX Reinigungsservice <span class="live-badge"><span class="live-dot" aria-hidden="true"></span>Live</span></h3>
-                            <div class="project-details">
-                                <strong>Overview:</strong>
-                                <span lang="de">Live-Kundenprojekt mit eigener Domain. Statische, schnelle und DSGVO-konforme Website für einen Berliner Reinigungs- und Hausmeisterservice.</span>
-                                <span lang="en">Live client project with custom domain. Static, fast and GDPR-compliant website for a Berlin cleaning and facility service.</span>
+                </div>
 
-                                <strong>Technologies:</strong><span>HTML, CSS, JavaScript, Cloudflare Pages.</span>
+                <!-- Zwischentitel: Demo-Projekte -->
+                <p class="projects-subsection-title">
+                    <span lang="de">Weitere Projekte &amp; Demos</span>
+                    <span lang="en">More Projects &amp; Demos</span>
+                </p>
 
-                                <strong>Outcome:</strong>
-                                <span lang="de">Eigene Domain mit SSL und Google-Workspace-Mail; vollständig live im Einsatz.</span>
-                                <span lang="en">Custom domain with SSL and Google Workspace mail; fully live in production.</span>
-                            </div>
-                            <div class="tags" style="margin-bottom: 1.5rem;">
-                                <span class="tag">Frontend</span>
-                                <span class="tag">Cloudflare Pages</span>
-                                <span class="tag expert">Live Project</span>
-                            </div>
-                            <a href="https://allfix-service.de" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View ALLFIX">
-                                <span lang="de">Live ansehen</span>
-                                <span lang="en">View Live</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                            </a>
-                        </div>
-                    </article>
+                <div class="project-grid glowing-container">
 
                     <!-- Projekt 2: Personal Trainer Prototype -->
                     <article class="project-card glowing-card accent-fitness">
