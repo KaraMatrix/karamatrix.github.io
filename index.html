@@ -659,7 +659,8 @@
 
         .skill-category { padding: 3rem 2.5rem; height: 100%; }
         .skill-category.primary { border-top: 4px solid var(--color-accent); }
-        .category-desc { font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .category-desc { font-size: 0.95rem; margin-bottom: 1.5rem; min-height: 3em; }
+        @media (max-width: 767px) { .category-desc { min-height: 0; } }
         .tags { display: flex; flex-wrap: wrap; gap: 0.75rem; }
         /* Skill-Karten: symmetrisches 2-Spalten-Raster statt greedy flex-wrap */
         .skill-category .tags {
