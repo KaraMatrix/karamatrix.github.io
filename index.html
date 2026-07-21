@@ -57,6 +57,7 @@
         .accent-coaching { --color-accent: #30d158; --color-accent-hover: #28cd41; } /* Seriöses Grün */
         .accent-learning { --color-accent: #ff9f0a; --color-accent-hover: #e08b00; } /* Energetisches Bernstein */
         .accent-allfix { --color-accent: #30b0c7; --color-accent-hover: #2a9aad; } /* Frisches Türkis (Reinigung) */
+        .accent-certguide { --color-accent: #4a72c8; --color-accent-hover: #3a5fb0; } /* CertGuide Blau (Zertifizierung) */
         .accent-cv { --color-accent: #5e5ce6; --color-accent-hover: #4b49b8; } /* Indigo */
         .accent-ig { --color-accent: #ff2d55; --color-accent-hover: #d92648; } /* Pink/Red */
 
@@ -517,17 +518,23 @@
         }
 
         /* =========================================================
-           Featured-Pair: allfix + cine (echte Live-Kundenprojekte)
+           Featured-Pair: echte Live-Kundenprojekte (allfix, cine, certguide)
+           Responsives Grid: 3-up (Desktop) / 2-up (Tablet) / 1-up (Mobil)
         ========================================================= */
         .featured-pair {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             width: 100%;
             margin-bottom: 1rem;
         }
 
-        @media (max-width: 767px) {
+        @media (max-width: 991px) {
+            .featured-pair {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 640px) {
             .featured-pair {
                 grid-template-columns: 1fr;
             }
@@ -1285,6 +1292,52 @@
                                 <span class="tag expert">Live</span>
                             </div>
                             <a href="https://www.cine-videoproduktion.de" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Cine Videoproduktion live ansehen">
+                                <span lang="de">Live ansehen</span>
+                                <span lang="en">View Live Site</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- CertGuide Zertifizierungsberatung (Live) -->
+                    <article class="project-card glowing-card accent-certguide">
+                        <div class="browser-frame">
+                            <div class="browser-bar">
+                                <div class="browser-dots" aria-hidden="true">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="browser-url">certguide.de</span>
+                            </div>
+                            <img
+                                src="images/certguide-site.jpg"
+                                width="1440"
+                                height="900"
+                                loading="lazy"
+                                decoding="async"
+                                alt="Screenshot der Live-Website certguide.de"
+                                class="browser-screenshot"
+                            >
+                        </div>
+                        <div class="project-info">
+                            <h3>CertGuide <span class="live-badge"><span class="live-dot" aria-hidden="true"></span>Live</span></h3>
+                            <div class="project-details">
+                                <strong>Overview:</strong>
+                                <span lang="de">Live-Kundenprojekt mit eigener Domain. Website für eine Berliner Zertifizierungs- und Auditberatung — mit Video-/Bild-Hero, geführtem Anfrage-Wizard und strukturierten Daten für SEO.</span>
+                                <span lang="en">Live client project with custom domain. Website for a Berlin certification and audit consultancy — with an image hero, a guided inquiry wizard and structured data for SEO.</span>
+
+                                <strong>Technologies:</strong><span>HTML, CSS, JavaScript, Cloudflare Pages.</span>
+
+                                <strong>Outcome:</strong>
+                                <span lang="de">Eigene Domain mit SSL; konversionsstarker Klick-Funnel und FAQ-Schema für bessere Sichtbarkeit.</span>
+                                <span lang="en">Custom domain with SSL; a conversion-focused click funnel and FAQ schema for better visibility.</span>
+                            </div>
+                            <div class="tags" style="margin-bottom: 1.5rem;">
+                                <span class="tag">Web Design</span>
+                                <span class="tag">UI/UX</span>
+                                <span class="tag">SEO</span>
+                                <span class="tag expert">Live</span>
+                            </div>
+                            <a href="https://www.certguide.de" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="CertGuide live ansehen">
                                 <span lang="de">Live ansehen</span>
                                 <span lang="en">View Live Site</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
