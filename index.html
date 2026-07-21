@@ -664,12 +664,13 @@
         /* Skill-Karten: symmetrisches 2-Spalten-Raster statt greedy flex-wrap */
         .skill-category .tags {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
+            grid-template-columns: max-content max-content;
+            justify-content: start;
+            justify-items: start;
+            gap: 0.75rem 1rem;
         }
-        .skill-category .tags .tag { justify-self: start; }
         @media (max-width: 480px) {
-            .skill-category .tags { grid-template-columns: 1fr; }
+            .skill-category .tags { grid-template-columns: max-content; }
         }
         .tag {
             padding: 0.5rem 1.25rem;
@@ -1590,7 +1591,7 @@
                             <span class="tag">Java (Basic)</span>
                             <span class="tag">JavaScript (Basic)</span>
                             <span class="tag">Python (Basic)</span>
-                            <span class="tag">Software Engineering (Basic)</span>
+                            <span class="tag">Software Engineering</span>
                             <span class="tag">Clean Project Structure</span>
                             <span class="tag">AI-Assisted Workflows</span>
                         </div>
