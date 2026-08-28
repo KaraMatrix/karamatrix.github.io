@@ -1099,6 +1099,73 @@
             }
         }
     </style>
+<style>
+/* Barrierefreiheits-Nachtrag — jeder Block behebt einen mit ui-gate.mjs gemessenen
+   Verstoß (28.08.2026: 15 Verstöße). Additiv am Ende, damit der gewachsene
+   Style-Block unberührt bleibt und der Nachtrag als Ganzes entfernbar ist.
+
+   Hinweis für später: min-height wirkt NICHT auf display:inline — deshalb bekommt
+   jeder Treffer zusätzlich inline-flex. Und Höhe ist nicht Fläche: mehrere Links
+   waren hoch genug und zu schmal. */
+
+/* 1) Kontrast. Beide Werte berechnet, gleicher Farbton, nur heller. */
+.clients-heading > span[lang="de"],
+.clients-heading > span {
+  color: #9296a0;          /* war #878b96 = 4,07:1 auf #252c40 → jetzt 4,69:1 */
+}
+/* Diese Farbe steht auf FÜNF verschiedenen Karten-Hintergründen (#141d23, #141e20,
+   #1c1c1e, #151921, #252c40). Ein erster Versuch mit #5e81ce war auf einem davon
+   optimiert und lag auf drei anderen bei 4,45–4,48:1 — knapp darunter. #7996d6
+   erreicht auf allen fünf mindestens 4,72:1. Auf einem Hintergrund rechnen genügt
+   nicht, wenn die Farbe auf mehreren verwendet wird. */
+.project-info .tags .exp,
+.project-info .tags .tag,
+.project-info .tags span {
+  color: #7996d6;          /* war #4a72c8 = 3,80:1 → jetzt min. 4,72:1 */
+}
+
+/* 2) Klickflächen auf das WCAG-Mindestmaß von 44 px. */
+header nav a.logo,
+#langToggle,
+#themeToggle,
+.project-card a,
+.project-info a,
+.featured-pair a,
+.project-grid a,
+footer a,
+footer button,
+.footer-links button,
+p > a:only-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Karten füllen ihre Fläche — zentrieren würde den Inhalt zusammenstauchen. */
+.project-card a,
+.featured-pair a,
+.project-grid a {
+  align-items: stretch;
+  justify-content: flex-start;
+  min-width: 0;
+}
+
+/* 3) Inline-Links im Fließtext: hoch genug machen, ohne den Satz zu sprengen. */
+div.container > p span a,
+p a:not(:only-child) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* 4) Sichtbarer Fokus überall. */
+:where(a, button, [role="button"], summary, input, select, textarea):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+</style>
 </head>
 <body>
 
